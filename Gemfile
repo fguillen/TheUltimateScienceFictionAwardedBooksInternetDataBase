@@ -10,7 +10,8 @@ gem "puma", "~> 4.1"
 gem "rails", "~> 6.0.2", ">= 6.0.2.2"
 gem "sass-rails", ">= 6"
 gem "turbolinks", "~> 5"
-gem "wac", :git => "https://github.com/fguillen/wac.git"
+# gem "wac", git: "https://github.com/fguillen/wac.git"
+gem "wac", path: "/Users/fernando.guillen/Development/wac"
 gem "webpacker", "~> 4.0"
 
 group :development, :test do
@@ -28,6 +29,7 @@ end
 group :test do
   gem "capybara", ">= 2.15"
   gem "factory_bot_rails"
+  gem "mocha"
   gem "selenium-webdriver"
   gem "vcr"
   gem "webdrivers"

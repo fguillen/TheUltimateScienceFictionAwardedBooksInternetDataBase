@@ -1,6 +1,7 @@
-ENV['RAILS_ENV'] ||= 'test'
-require_relative '../config/environment'
-require 'rails/test_help'
+ENV["RAILS_ENV"] ||= "test"
+require_relative "../config/environment"
+require "rails/test_help"
+require "mocha/minitest"
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
@@ -9,7 +10,15 @@ class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   # fixtures :all
 
-  # Add more helper methods to be used by all tests here...
+  def read_fixture(fixture_file)
+    File.read("#{__dir__}/fixtures/#{fixture_file}")
+  end
+
+  def write_fixture(fixture_file, content)
+    File.open("#{__dir__}/fixtures/#{fixture_file}", "w") do |f|
+      f.write content
+    end
+  end
 end
 
 
