@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class AuthorTest < ActiveSupport::TestCase
+  def test_test
+    assert true
+  end
+
   def test_fixture_is_valid
     assert FactoryBot.create(:author).valid?
   end

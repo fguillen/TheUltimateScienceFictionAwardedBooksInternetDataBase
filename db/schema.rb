@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_13_153620) do
+ActiveRecord::Schema.define(version: 2020_04_13_161452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -19,6 +19,22 @@ ActiveRecord::Schema.define(version: 2020_04_13_153620) do
   create_table "authors", id: false, force: :cascade do |t|
     t.string "name", null: false
     t.string "slug", null: false
+    t.index ["name"], name: "index_authors_on_name", unique: true
+    t.index ["slug"], name: "index_authors_on_slug", unique: true
   end
 
+  create_table "books", id: false, force: :cascade do |t|
+    t.string "title", null: false
+    t.string "slug", null: false
+    t.string "author_id", null: false
+    t.string "country"
+    t.string "language"
+    t.date "publication_date"
+    t.integer "pages"
+    t.string "isbn"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "books", "authors", primary_key: "slug"
 end
