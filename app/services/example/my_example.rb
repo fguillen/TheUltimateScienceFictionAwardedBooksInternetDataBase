@@ -8,7 +8,7 @@ class Example::MyExample < ApplicationService
     @reult = nil
   end
 
-  def call
+  def perform
     @result = @message
     @success = true
 

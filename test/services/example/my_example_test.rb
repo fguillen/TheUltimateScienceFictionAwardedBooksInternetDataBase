@@ -5,8 +5,8 @@ class Example::MyExampleTest < ActiveSupport::TestCase
     assert true
   end
 
-  def test_call
-    result = Example::MyExample.call("MESSAGE")
+  def test_perform
+    result = Example::MyExample.perform("MESSAGE")
 
     assert_equal("MESSAGE", result.result)
     assert(result.success?)
