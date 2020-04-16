@@ -54,7 +54,8 @@ ActiveRecord::Schema.define(version: 2020_04_13_170741) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["slug"], name: "index_books_on_slug", unique: true
-    t.index ["title"], name: "index_books_on_title", unique: true
+    t.index ["title", "author_id"], name: "index_books_on_title_and_author_id", unique: true
+    t.index ["title"], name: "index_books_on_title"
   end
 
   add_foreign_key "award_winners", "awards", primary_key: "slug"

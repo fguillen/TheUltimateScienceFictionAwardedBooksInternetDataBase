@@ -1,0 +1,2 @@
+- Support multiple Authors
+- Publication Date is not detected sometimes, example: https://en.wikipedia.org/wiki/24_Views_of_Mt._Fuji,_by_Hokusai

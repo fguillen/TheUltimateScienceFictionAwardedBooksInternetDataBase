@@ -5,8 +5,9 @@ class Book < ApplicationRecord
 
   before_validation :initialize_slug
 
-  validates :title, presence: true, uniqueness: true
+  validates :title, presence: true, uniqueness: {scope: :author}
   validates :slug, presence: true, uniqueness: true
+  validates :author, presence: true
 
   private
 
