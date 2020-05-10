@@ -1,4 +1,4 @@
-class Scrapers::ExtractBookInformationService < ApplicationService
+class Scrapers::Wikipedia::ExtractBookInformationService < ApplicationService
   def initialize(url, book)
     @url = url
     @book = book

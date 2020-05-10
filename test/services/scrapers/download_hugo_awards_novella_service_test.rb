@@ -2,7 +2,7 @@ require "test_helper"
 
 class Scrapers::DownloadHugoAwardsNovellaServiceTest < ActiveSupport::TestCase
   def test_perform
-    Scrapers::ExtractBookInformationService.expects(:perform).at_least_once
+    Scrapers::Wikipedia::ExtractBookInformationService.expects(:perform).at_least_once
 
     VCR.use_cassette("DownloadHugoAwardsNovellaService_test_perform") do
       Scrapers::DownloadHugoAwardsNovellaService.perform

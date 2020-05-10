@@ -1,11 +1,9 @@
-class Scrapers::DownloadHugoAwardsNovellaService < ApplicationService
-  BASE_URL = "https://en.wikipedia.org"
-  URL = "https://en.wikipedia.org/wiki/Hugo_Award_for_Best_Novella"
-  AWARD = "Hugo_Award"
-  CATEGORY = "Best Novella"
+class Scrapers::Wikipedia::AwardsBaseService < ApplicationService
+  def perform(url, award_name, category_name)
+    @url = url
+    @base_url = base_url(url)
 
-  def perform
-    award = create_award
+    award = create_award(award_name, category_name)
     books = []
 
     table_rows.each do |row|
@@ -13,8 +11,12 @@ class Scrapers::DownloadHugoAwardsNovellaService < ApplicationService
       book = create_book(row, author)
       book_url = get_book_url(row)
 
+      if book_url.nil?
+        puts "Book URL nil: #{row}"
+      end
+
       if book
-        award_winner = create_award_winner(row, award, book)
+        create_award_winner(row, award, book)
       end
 
       if book.nil?
@@ -22,7 +24,7 @@ class Scrapers::DownloadHugoAwardsNovellaService < ApplicationService
       end
 
       if book && book_url
-        Scrapers::ExtractBookInformationService.perform(book_url, book)
+        Scrapers::Wikipedia::ExtractBookInformationService.perform(book_url, book)
       end
 
       if book
@@ -47,19 +49,20 @@ class Scrapers::DownloadHugoAwardsNovellaService < ApplicationService
   private
 
   def get_book_url(row)
+    puts "XXX: super.get_book_url"
     if row["Novella"] && row["Novella"]["link"] && !row["Novella"]["link"].match("redlink=1")
-      "#{BASE_URL}#{row["Novella"]["link"]}"
+      "#{@base_url}#{row["Novella"]["link"]}"
     end
   end
 
   def table_rows
-    Wac::Page.new(URL).extract["tables"].first.rows
+    Wac::Page.new(@url).extract["tables"].first.rows
   end
 
-  def create_award
+  def create_award(award_name, category_name)
     Award.find_or_create_by!({
-      name: AWARD,
-      category: CATEGORY
+      name: award_name,
+      category: category_name
     })
   end
 
@@ -97,7 +100,20 @@ class Scrapers::DownloadHugoAwardsNovellaService < ApplicationService
       award: award,
       book: book,
       position: position,
-      year: row["Year"]["text"].to_i
+      year: [row["Year"]].flatten.first["text"].to_i
     })
+  rescue ActiveRecord::RecordInvalid => e
+    puts "XXX: e: #{e.message}"
+    if e.message == "Validation failed: Award has already been taken"
+      Rails.logger.error "Error Award: #{row}, e: #{e}"
+      nil
+    else
+      raise e
+    end
+  end
+
+  def base_url(url)
+    uri = URI.parse(url)
+    "#{uri.scheme}://#{uri.host}"
   end
 end
