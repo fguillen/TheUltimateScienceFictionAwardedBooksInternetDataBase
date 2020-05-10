@@ -2,3 +2,5 @@
 - Publication Date is not detected sometimes, example: https://en.wikipedia.org/wiki/24_Views_of_Mt._Fuji,_by_Hokusai
 - Pages is not detected properly sometimes, example: https://en.wikipedia.org/wiki/The_Moon_Is_a_Harsh_Mistress
 - Award winner duplicated "The Moon Is a Harsh Mistress": https://en.wikipedia.org/wiki/Hugo_Award_for_Best_Novel
+- Support multiple books with the same title, right now there is a problem with the "slug" (maybe we have to add the year)
+- Store images
